@@ -5,10 +5,13 @@ import OrderItem from "../orderItem/orderItem";
 
 export default class Order {
     private cpf: Cpf;
+    private date: Date;
+    private coupom: Coupom | undefined;
     private orderItems: OrderItem[];
 
-    constructor(cpf: string) {
+    constructor(cpf: string, date: Date = new Date()) {
         this.cpf = new Cpf(cpf);
+        this.date = date;
         this.orderItems = [];
     }
 
@@ -16,15 +19,24 @@ export default class Order {
         return this.cpf;
     }
 
+    public getDate(): Date {
+        return this.date;
+    }
+
     public getTotal(): number {
         let total = 0;
         this.orderItems.forEach(item => {
             total += item.getTotal();
         });
+        if(this.coupom) {
+            total -= this.coupom.calculateDiscount(total, this.getDate());
+        }
         return total;
     }
 
     public addCoupom(coupom: Coupom): void {
+        if (!coupom.isValid(this.getDate())) return;
+        this.coupom = coupom;
         this.orderItems.forEach(item => {
             item.addCoupom(coupom);
         });
