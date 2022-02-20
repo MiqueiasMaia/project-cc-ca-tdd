@@ -1,7 +1,11 @@
 import Coupom from "../../src/entities/coupom/coupom";
 import Cpf from "../../src/entities/cpf/cpf";
 import Item from "../../src/entities/items/item";
+import { ItemDimension } from "../../src/entities/items/itemDimension";
+import { ItemWeigth } from "../../src/entities/items/itemWeigth";
 import Order from "../../src/entities/order/order";
+import DefaultShippingCalculator from "../../src/entities/shipping/defaultShippingCalculator";
+import FixedShippingCalculator from "../../src/entities/shipping/fixedShippingCalculator";
 
 const VALID_CPF = '987.654.321-00';
 const INVALID_CPF = '987.654.321-01';
@@ -54,4 +58,22 @@ test ("Must create a Order with 3 items with a invalid discount coupom", functio
     order.addCoupom(coupom);
     const total = order.getTotal();
     expect(total).toBe(36000);
+});
+
+test("Must create a Order with 3 items with shipp price", function () {
+    const order = new Order(VALID_CPF, new Date(), new DefaultShippingCalculator());
+    order.addItem(new Item(1, 'Musical instruments', 'Guitar', 1000, new ItemDimension(100,30,10), new ItemWeigth(3)), 1);
+    order.addItem(new Item(2, 'Musical instruments', 'Sanfona', 5000, new ItemDimension(100,50,50), new ItemWeigth(20)), 1);
+    order.addItem(new Item(3, 'Musical instruments', 'Violão', 30, new ItemDimension(10,10,10), new ItemWeigth(0.9)), 3);
+    const shipping = order.getShipping();
+    expect(shipping).toBe(260);
+});
+
+test("Must create a Order with 3 items with shipp price", function () {
+    const order = new Order(VALID_CPF, new Date(), new FixedShippingCalculator());
+    order.addItem(new Item(1, 'Musical instruments', 'Guitar', 1000, new ItemDimension(100,30,10), new ItemWeigth(3)), 1);
+    order.addItem(new Item(2, 'Musical instruments', 'Sanfona', 5000, new ItemDimension(100,50,50), new ItemWeigth(20)), 1);
+    order.addItem(new Item(3, 'Musical instruments', 'Violão', 30, new ItemDimension(10,10,10), new ItemWeigth(0.9)), 3);
+    const shipping = order.getShipping();
+    expect(shipping).toBe(50);
 });
