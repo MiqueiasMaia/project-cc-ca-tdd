@@ -2,17 +2,21 @@ import Coupom from "../coupom/coupom";
 import Cpf from "../cpf/cpf";
 import Item from "../items/item";
 import OrderItem from "../orderItem/orderItem";
+import DefaultShippingCalculator from "../shipping/defaultShippingCalculator";
+import Shipping from "../shipping/shipping";
 
 export default class Order {
     private cpf: Cpf;
     private date: Date;
     private coupom: Coupom | undefined;
+    private shipping : number;
     private orderItems: OrderItem[];
 
-    constructor(cpf: string, date: Date = new Date()) {
+    constructor(cpf: string, date: Date = new Date(), readonly shippingCalculator: Shipping = new DefaultShippingCalculator()) {
         this.cpf = new Cpf(cpf);
         this.date = date;
         this.orderItems = [];
+        this.shipping = 0;
     }
 
     public getCpf(): Cpf {
@@ -43,6 +47,13 @@ export default class Order {
     }
 
     public addItem(item: Item, quantity: number): void {
+        if(item.itemDimension && item.itemWeigth) {
+            this.shipping += this.shippingCalculator.calculate(item) * quantity;
+        }
         this.orderItems.push(new OrderItem(item.idItem, item.price, quantity));
+    }
+
+    public getShipping(): number {
+        return this.shipping;
     }
 }
