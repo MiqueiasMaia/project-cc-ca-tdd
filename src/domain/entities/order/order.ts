@@ -1,14 +1,14 @@
-import Coupom from "../coupom/coupom";
+import Coupon from "../coupon/coupon";
 import Cpf from "../cpf/cpf";
-import Item from "../items/item";
-import OrderItem from "../orderItem/orderItem";
+import Item from "../item/item";
+import OrderItem from "./orderItem";
 import DefaultShippingCalculator from "../shipping/defaultShippingCalculator";
 import Shipping from "../shipping/shipping";
 
 export default class Order {
     private cpf: Cpf;
     private date: Date;
-    private coupom: Coupom | undefined;
+    private coupon: Coupon | undefined;
     private shipping : number;
     private orderItems: OrderItem[];
 
@@ -32,17 +32,17 @@ export default class Order {
         this.orderItems.forEach(item => {
             total += item.getTotal();
         });
-        if(this.coupom) {
-            total -= this.coupom.calculateDiscount(total, this.getDate());
+        if(this.coupon) {
+            total -= this.coupon.calculateDiscount(total, this.getDate());
         }
         return total;
     }
 
-    public addCoupom(coupom: Coupom): void {
-        if (!coupom.isValid(this.getDate())) return;
-        this.coupom = coupom;
+    public addCoupon(coupon: Coupon): void {
+        if (!coupon.isValid(this.getDate())) return;
+        this.coupon = coupon;
         this.orderItems.forEach(item => {
-            item.addCoupom(coupom);
+            item.addCoupon(coupon);
         });
     }
 

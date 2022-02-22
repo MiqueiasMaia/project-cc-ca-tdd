@@ -1,4 +1,4 @@
-export default class Coupom {
+export default class Coupon {
     constructor(readonly discount: number, readonly code: string, readonly expireDate?: Date) { }
 
     isValid(today: Date = new Date()) {

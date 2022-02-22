@@ -1,4 +1,4 @@
-import Coupom from "../coupom/coupom";
+import Coupon from "../coupon/coupon";
 
 export default class OrderItem {
     constructor(readonly idItem: number, private price: number, readonly quantity: number) { }
@@ -7,7 +7,7 @@ export default class OrderItem {
         return this.price * this.quantity;
     }
 
-    public addCoupom(coupom: Coupom): number {
-        return this.price -= this.price * (coupom.discount / 100);
+    public addCoupon(coupon: Coupon): number {
+        return this.price -= this.price * (coupon.discount / 100);
     }
 }
