@@ -1,4 +1,4 @@
-import Cpf from "../../src/entities/cpf/cpf";
+import Cpf from "../../../src/domain/entities/cpf/cpf";
 
 const VALID_CPF = '987.654.321-00';
 const INVALID_CPF = '987.654.321-01';

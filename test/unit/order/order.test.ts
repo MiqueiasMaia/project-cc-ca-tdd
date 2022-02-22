@@ -1,11 +1,11 @@
-import Coupom from "../../src/entities/coupom/coupom";
-import Cpf from "../../src/entities/cpf/cpf";
-import Item from "../../src/entities/items/item";
-import { ItemDimension } from "../../src/entities/items/itemDimension";
-import { ItemWeigth } from "../../src/entities/items/itemWeigth";
-import Order from "../../src/entities/order/order";
-import DefaultShippingCalculator from "../../src/entities/shipping/defaultShippingCalculator";
-import FixedShippingCalculator from "../../src/entities/shipping/fixedShippingCalculator";
+import Coupon from "../../../src/domain/entities/coupon/coupon";
+import Cpf from "../../../src/domain/entities/cpf/cpf";
+import Item from "../../../src/domain/entities/item/item";
+import { ItemDimension } from "../../../src/domain/entities/item/itemDimension";
+import { ItemWeigth } from "../../../src/domain/entities/item/itemWeigth";
+import Order from "../../../src/domain/entities/order/order";
+import DefaultShippingCalculator from "../../../src/domain/entities/shipping/defaultShippingCalculator";
+import FixedShippingCalculator from "../../../src/domain/entities/shipping/fixedShippingCalculator";
 
 const VALID_CPF = '987.654.321-00';
 const INVALID_CPF = '987.654.321-01';
@@ -30,8 +30,8 @@ test("Must create a Order with 3 items with discount coupom", function () {
     order.addItem(new Item(2, 'Musical instruments', 'Sanfona', 1000), 10);
     order.addItem(new Item(3, 'Musical instruments', 'Violão', 1000), 12);
     order.addItem(new Item(4, 'Musical instruments', 'Pandeiro', 1000), 13);
-    const coupom = new Coupom(10, 'CUPOM20');
-    order.addCoupom(coupom);
+    const coupom = new Coupon(10, 'CUPOM20');
+    order.addCoupon(coupom);
     const total = order.getTotal();
     expect(total).toBe(29160);
 });
@@ -42,8 +42,8 @@ test ("Must create a Order with 3 items with a valid discount coupom", function 
     order.addItem(new Item(2, 'Musical instruments', 'Sanfona', 1000), 10);
     order.addItem(new Item(3, 'Musical instruments', 'Violão', 1000), 12);
     order.addItem(new Item(4, 'Musical instruments', 'Pandeiro', 1000), 13);
-    const coupom = new Coupom(10, 'CUPOM20');
-    order.addCoupom(coupom);
+    const coupom = new Coupon(10, 'CUPOM20');
+    order.addCoupon(coupom);
     const total = order.getTotal();
     expect(total).toBe(29160);
 });
@@ -54,8 +54,8 @@ test ("Must create a Order with 3 items with a invalid discount coupom", functio
     order.addItem(new Item(2, 'Musical instruments', 'Sanfona', 1000), 10);
     order.addItem(new Item(3, 'Musical instruments', 'Violão', 1000), 12);
     order.addItem(new Item(4, 'Musical instruments', 'Pandeiro', 1000), 13);
-    const coupom = new Coupom(10, 'CUPOM20', new Date(2020, 1, 1)); 
-    order.addCoupom(coupom);
+    const coupom = new Coupon(10, 'CUPOM20', new Date(2020, 1, 1)); 
+    order.addCoupon(coupom);
     const total = order.getTotal();
     expect(total).toBe(36000);
 });
