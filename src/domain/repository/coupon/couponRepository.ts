@@ -1,5 +1,7 @@
-import Coupon from "../../entities/coupon/coupon";
+import Coupon from '../../entities/coupon/coupon';
 
-export default interface CouponRepository {
+interface CouponRepository {
     getByCode(id: string): Coupon | undefined;
 }
+
+export default CouponRepository;

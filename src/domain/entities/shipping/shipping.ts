@@ -1,5 +1,7 @@
-import Item from "../item/item";
+import Item from '../item/item';
 
-export default interface Shipping {
+interface Shipping {
     calculate (item: Item): number;
 }
+
+export default Shipping;

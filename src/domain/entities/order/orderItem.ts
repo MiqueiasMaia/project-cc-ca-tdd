@@ -1,4 +1,4 @@
-import Coupon from "../coupon/coupon";
+import Coupon from '../coupon/coupon';
 
 export default class OrderItem {
     constructor(readonly idItem: number, private price: number, readonly quantity: number) { }

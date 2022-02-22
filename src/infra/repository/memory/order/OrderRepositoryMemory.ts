@@ -1,5 +1,5 @@
-import Order from "../../../../domain/entities/order/order";
-import OrderRepository from "../../../../domain/repository/order/orderRepository";
+import Order from '../../../../domain/entities/order/order';
+import OrderRepository from '../../../../domain/repository/order/orderRepository';
 
 export default class OrderRepositoryMemory implements OrderRepository {
     orders: Order[];
@@ -9,6 +9,6 @@ export default class OrderRepositoryMemory implements OrderRepository {
     }
 
     save(order: Order): void {
-		this.orders.push(order);
-	}
+        this.orders.push(order);
+    }
 }

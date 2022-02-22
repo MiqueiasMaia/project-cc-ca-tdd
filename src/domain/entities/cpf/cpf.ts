@@ -2,7 +2,7 @@ export default class Cpf {
     private FACTOR_DIGIT_1 = 10;
     private FACTOR_DIGIT_2 = 11;
     private value: string;
-    
+
     constructor(value: string) {
         if (!this.validate(value)) throw new Error('Invalid CPF');
         this.value = value;
@@ -25,7 +25,7 @@ export default class Cpf {
     };
 
     private cpfCleaner(cpf: string) {
-        return cpf.replace(/[\.\-]*/g, "");
+        return cpf.replace(/[\.\-]*/g, '');
     };
 
     private cpfSizeValidator(cpf: string) {
@@ -40,8 +40,9 @@ export default class Cpf {
     private calculateDigit(cpf: string, factor: number) {
         let total = 0;
         for (const digit of cpf) {
-            if (factor > 1)
+            if (factor > 1) {
                 total += parseInt(digit) * factor--;
+            }
         }
         const rest = total % 11;
         return rest < 2 ? 0 : 11 - rest;

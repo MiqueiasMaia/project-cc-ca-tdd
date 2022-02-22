@@ -1,5 +1,5 @@
-import Item from "../item/item";
-import Shipping from "./shipping";
+import Item from '../item/item';
+import Shipping from './shipping';
 
 export default class DefaultShippingCalculator implements Shipping {
     private DISTANCE = 1000;

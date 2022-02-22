@@ -5,9 +5,9 @@ export default class Coupon {
         if (!this.expireDate) return true;
         return this.expireDate.getTime() >= today.getTime();
     }
-    
+
     calculateDiscount (amount: number, today: Date = new Date()) {
-		if (!this.isValid(today)) return 0;
-		return (amount * this.discount) / 100;
-	}
+        if (!this.isValid(today)) return 0;
+        return (amount * this.discount) / 100;
+    }
 }

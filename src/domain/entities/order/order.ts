@@ -1,9 +1,9 @@
-import Coupon from "../coupon/coupon";
-import Cpf from "../cpf/cpf";
-import Item from "../item/item";
-import OrderItem from "./orderItem";
-import DefaultShippingCalculator from "../shipping/defaultShippingCalculator";
-import Shipping from "../shipping/shipping";
+import Coupon from '../coupon/coupon';
+import Cpf from '../cpf/cpf';
+import Item from '../item/item';
+import OrderItem from './orderItem';
+import DefaultShippingCalculator from '../shipping/defaultShippingCalculator';
+import Shipping from '../shipping/shipping';
 
 export default class Order {
     private cpf: Cpf;
@@ -32,7 +32,7 @@ export default class Order {
         this.orderItems.forEach(item => {
             total += item.getTotal();
         });
-        if(this.coupon) {
+        if (this.coupon) {
             total -= this.coupon.calculateDiscount(total, this.getDate());
         }
         return total;
@@ -47,7 +47,7 @@ export default class Order {
     }
 
     public addItem(item: Item, quantity: number): void {
-        if(item.itemDimension && item.itemWeigth) {
+        if (item.itemDimension && item.itemWeigth) {
             this.shipping += this.shippingCalculator.calculate(item) * quantity;
         }
         this.orderItems.push(new OrderItem(item.idItem, item.price, quantity));
