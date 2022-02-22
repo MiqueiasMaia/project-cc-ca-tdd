@@ -6,7 +6,7 @@ test("Must create a valid coupom", function () {
     expect(isValid).toBeTruthy();
 });
 
-test("Must create a invalid valid coupom", function () {
+test("Must create a invalid coupom", function () {
     const coupom = new Coupom(20, "ABCDE20", new Date(2021, 11, 31));
     const isValid = coupom.isValid(new Date());
     expect(isValid).toBeFalsy();
