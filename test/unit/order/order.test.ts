@@ -77,3 +77,21 @@ test("Must create a Order with 3 items with shipp price", function () {
     const shipping = order.getShipping();
     expect(shipping).toBe(50);
 });
+
+test("Must generate a Order id with GUUID", function () {
+    const order = new Order(VALID_CPF, new Date(), new FixedShippingCalculator());
+    order.addItem(new Item(1, 'Musical instruments', 'Guitar', 1000, new ItemDimension(100,30,10), new ItemWeigth(3)), 1);
+    order.addItem(new Item(2, 'Musical instruments', 'Sanfona', 5000, new ItemDimension(100,50,50), new ItemWeigth(20)), 1);
+    order.addItem(new Item(3, 'Musical instruments', 'Violão', 30, new ItemDimension(10,10,10), new ItemWeigth(0.9)), 3);
+    const id = order.getId();
+    expect(id).toHaveLength(36);
+});
+
+test("Must create a Order with 3 items and generate code", function () {
+    const order = new Order(VALID_CPF, new Date('2022-01-01T00:00:00'), new FixedShippingCalculator(), 1);
+    order.addItem(new Item(1, 'Musical instruments', 'Guitar', 1000), 1);
+    order.addItem(new Item(2, 'Musical instruments', 'Sanfona', 1000), 10);
+    order.addItem(new Item(3, 'Musical instruments', 'Violão', 1000), 12);
+    order.addItem(new Item(4, 'Musical instruments', 'Pandeiro', 1000), 13);
+    expect(order.getCode()).toBe('202200000001');
+});
