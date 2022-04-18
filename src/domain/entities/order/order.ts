@@ -4,19 +4,22 @@ import Item from '../item/item';
 import OrderItem from './orderItem';
 import DefaultShippingCalculator from '../shipping/defaultShippingCalculator';
 import Shipping from '../shipping/shipping';
-
+import {v4 as uuid} from 'uuid';
+import OrderCode from './orderCode';
 export default class Order {
     private cpf: Cpf;
     private date: Date;
     private coupon: Coupon | undefined;
     private shipping : number;
     private orderItems: OrderItem[];
+    private code: OrderCode;
 
-    constructor(cpf: string, date: Date = new Date(), readonly shippingCalculator: Shipping = new DefaultShippingCalculator()) {
+    constructor(cpf: string, date: Date = new Date(), readonly shippingCalculator: Shipping = new DefaultShippingCalculator(), readonly sequence: number = 1) {
         this.cpf = new Cpf(cpf);
         this.date = date;
         this.orderItems = [];
         this.shipping = 0;
+        this.code = new OrderCode(this.date, this.sequence);
     }
 
     public getCpf(): Cpf {
@@ -55,5 +58,13 @@ export default class Order {
 
     public getShipping(): number {
         return this.shipping;
+    }
+
+    public getId(): string {
+        return uuid();
+    }
+
+    public getCode(): string {
+        return this.code.getCode();
     }
 }
