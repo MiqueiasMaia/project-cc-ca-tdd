@@ -1,4 +1,6 @@
 import Order from '../../../domain/entities/order/order';
+import DefaultShippingCalculator from '../../../domain/entities/shipping/defaultShippingCalculator';
+import Shipping from '../../../domain/entities/shipping/shipping';
 import CouponRepository from '../../../domain/repository/coupon/couponRepository';
 import ItemRepository from '../../../domain/repository/item/itemRepository';
 import OrderRepository from '../../../domain/repository/order/orderRepository';
@@ -13,7 +15,9 @@ export default class PlaceOrder {
     ) { }
 
     execute(input: PlaceOrderInput): PlaceOrderOutput {
-        const order = new Order(input.cpf);
+        const sequence = this.orderRepository.size() + 1;
+        const shippingCalculator: Shipping = new DefaultShippingCalculator();
+        const order = new Order(input.cpf, input.issueDate, shippingCalculator, sequence);
         input.orderItems.forEach(orderItem => {
             const item = this.itemRepository.getById(orderItem.idItem);
             if (!item) throw new Error('Item not found');
@@ -25,7 +29,7 @@ export default class PlaceOrder {
         }
         const total = order.getTotal();
         this.orderRepository.save(order);
-        const output = new PlaceOrderOutput(total);
+        const output = new PlaceOrderOutput(total, order.getCode());
         return output;
     }
 }
