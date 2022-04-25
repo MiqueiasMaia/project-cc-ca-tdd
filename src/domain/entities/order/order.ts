@@ -4,7 +4,7 @@ import Item from '../item/item';
 import OrderItem from './orderItem';
 import DefaultShippingCalculator from '../shipping/defaultShippingCalculator';
 import Shipping from '../shipping/shipping';
-import {v4 as uuid} from 'uuid';
+// import {v4 as uuid} from 'uuid';
 import OrderCode from './orderCode';
 export default class Order {
     private cpf: Cpf;
@@ -60,9 +60,9 @@ export default class Order {
         return this.shipping;
     }
 
-    public getId(): string {
-        return uuid();
-    }
+    // public getId(): string {
+    //     return uuid();
+    // }
 
     public getCode(): string {
         return this.code.getCode();
