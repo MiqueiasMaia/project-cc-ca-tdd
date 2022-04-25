@@ -6,10 +6,10 @@ import SimulateShippingOutput from "./simulateShippingOutput";
 export default class SimulateShipping {
     constructor(readonly itemRepository: ItemRepository) { }
 
-    execute(input: SimulateShippingInput): SimulateShippingOutput {
+    async execute(input: SimulateShippingInput): Promise<SimulateShippingOutput> {
         const shipping = new DefaultShippingCalculator();
-        input.orderItems.forEach(orderItem => {
-            const item = this.itemRepository.getById(orderItem.idItem);
+        input.orderItems.forEach(async orderItem => {
+            const item = await this.itemRepository.getById(orderItem.idItem);
             if (!item) {
                 throw new Error("Item not found");
             }

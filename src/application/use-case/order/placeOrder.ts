@@ -14,21 +14,21 @@ export default class PlaceOrder {
         readonly couponRepository: CouponRepository
     ) { }
 
-    execute(input: PlaceOrderInput): PlaceOrderOutput {
-        const sequence = this.orderRepository.size() + 1;
+    async execute(input: PlaceOrderInput): Promise<PlaceOrderOutput> {
+        const sequence = await this.orderRepository.size() + 1;
         const shippingCalculator: Shipping = new DefaultShippingCalculator();
         const order = new Order(input.cpf, input.issueDate, shippingCalculator, sequence);
-        input.orderItems.forEach(orderItem => {
-            const item = this.itemRepository.getById(orderItem.idItem);
+        input.orderItems.forEach(async orderItem => {
+            const item = await this.itemRepository.getById(orderItem.idItem);
             if (!item) throw new Error('Item not found');
             order.addItem(item, orderItem.quantity);
         });
         if (input.coupon) {
-            const coupon = this.couponRepository.getByCode(input.coupon);
+            const coupon = await this.couponRepository.getByCode(input.coupon);
             if (coupon) order.addCoupon(coupon);
         }
         const total = order.getTotal();
-        this.orderRepository.save(order);
+        await this.orderRepository.save(order);
         const output = new PlaceOrderOutput(total, order.getCode());
         return output;
     }
