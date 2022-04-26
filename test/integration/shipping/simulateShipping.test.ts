@@ -1,9 +1,13 @@
 import SimulateShipping from "../../../src/application/use-case/shipping/simulateShipping";
-import ItemRepositoryMemory from "../../../src/infra/repository/memory/item/ItemRepositoryMemory";
+import RepositoryFactory from "../../../src/domain/factory/RepositoryFactory";
+import Connection from "../../../src/infra/database/connection";
+import PostgreSQLConnectionAdapter from "../../../src/infra/database/postgreSQLConnectionAdapter";
+import DatabaseRepositoryFactory from "../../../src/infra/factory/DatabaseRepositoryFactory";
 
 test('Must simulate order shipping', async function () {
-    const itemRepository = new ItemRepositoryMemory();
-    const simulateShipping = new SimulateShipping(itemRepository);
+    const connection: Connection = new PostgreSQLConnectionAdapter();
+    const repositoryFactory: RepositoryFactory = new DatabaseRepositoryFactory(connection);
+    const simulateShipping = new SimulateShipping(repositoryFactory);
     const input = {
         orderItems: [
             { idItem: 1, quantity: 1 },

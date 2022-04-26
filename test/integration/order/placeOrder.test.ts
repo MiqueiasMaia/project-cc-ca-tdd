@@ -1,28 +1,21 @@
 import PlaceOrder from "../../../src/application/use-case/order/placeOrder";
 import Connection from "../../../src/infra/database/connection";
 import PostgreSQLConnectionAdapter from "../../../src/infra/database/postgreSQLConnectionAdapter";
-import CouponRepositoryMemory from "../../../src/infra/repository/memory/coupon/CouponRepositoryMemory";
-import OrderRepositoryMemory from "../../../src/infra/repository/memory/order/OrderRepositoryMemory";
-import ItemRepositoryDatabase from "../../../src/infra/repository/database/item/itemRepositoryDatabase";
-import ItemRepository from "../../../src/domain/repository/item/itemRepository";
-import OrderRepository from "../../../src/domain/repository/order/orderRepository";
-import CouponRepository from "../../../src/domain/repository/coupon/couponRepository";
-import CouponRepositoryDatabase from "../../../src/infra/repository/database/coupon/couponRepositoryDatabase";
+import RepositoryFactory from "../../../src/domain/factory/RepositoryFactory";
+// import MemoryRepositoryFactory from "../../../src/infra/factory/MemoryRepositoryFactory";
+import DatabaseRepositoryFactory from "../../../src/infra/factory/DatabaseRepositoryFactory";
 
 let connection: Connection;
-let itemRepository: ItemRepository;
-let orderRepository: OrderRepository;
-let couponRepository: CouponRepository;
+let repositoryFactory: RepositoryFactory;
 
 beforeEach(() => {
     connection = new PostgreSQLConnectionAdapter();
-    itemRepository = new ItemRepositoryDatabase(connection);
-    orderRepository = new OrderRepositoryMemory();
-    couponRepository = new CouponRepositoryDatabase(connection);
+    // repositoryFactory = new MemoryRepositoryFactory();
+    repositoryFactory = new DatabaseRepositoryFactory(connection);
 });
 
 test("Must do a order", async function () {
-    const placeOrder = new PlaceOrder(itemRepository, orderRepository, couponRepository);
+    const placeOrder = new PlaceOrder(repositoryFactory);
     const placeOrderInput = {
         cpf: "935.411.347-80",
         orderItems: [
@@ -38,7 +31,7 @@ test("Must do a order", async function () {
 });
 
 test("Must do a order and generate code", async function () {
-    const placeOrder = new PlaceOrder(itemRepository, orderRepository, couponRepository);
+    const placeOrder = new PlaceOrder(repositoryFactory);
     const placeOrderInput = {
         cpf: "935.411.347-80",
         orderItems: [
