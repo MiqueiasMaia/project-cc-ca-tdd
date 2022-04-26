@@ -1,10 +1,15 @@
 import DefaultShippingCalculator from "../../../domain/entities/shipping/defaultShippingCalculator";
+import RepositoryFactory from "../../../domain/factory/RepositoryFactory";
 import ItemRepository from "../../../domain/repository/item/itemRepository";
 import SimulateShippingInput from "./simulateShippingInput";
 import SimulateShippingOutput from "./simulateShippingOutput";
 
 export default class SimulateShipping {
-    constructor(readonly itemRepository: ItemRepository) { }
+    itemRepository: ItemRepository;
+    
+    constructor(readonly repositoryFactory: RepositoryFactory) {
+        this.itemRepository = repositoryFactory.createItemRepository();
+    }
 
     async execute(input: SimulateShippingInput): Promise<SimulateShippingOutput> {
         const shipping = new DefaultShippingCalculator();
